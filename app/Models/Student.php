@@ -4,42 +4,42 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
-
 class Student extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'Nombre',
-        'Apellido',
-        'Matricula',
-        'Grupo',
-        'Semestre',
-        'email',
-        'Fecha_nacimiento'
+        'nombre',
+        'apellido',
+        'matricula',
+        'correo',
+        'grupo',
+        'semestre',
+        'fecha_nacimiento',
     ];
 
-    public function subjects(): BelongsToMany
+    public function inscripciones()
     {
-        return $this->belongsToMany(Subject::class, 'enrollments')->withTimestamps();
+        return $this->hasMany(Registration::class);
     }
 
-    public function enrollments(): HasMany
+    public function materias()
     {
-        return $this->hasMany(Enrollment::class);
+        return $this->belongsToMany(Subject::class, 'inscripciones')
+            ->withPivot('id')
+            ->withTimestamps();
     }
 
-    public function grades(): HasManyThrough
+    public function calificaciones()
     {
-        return $this->hasManyThrough(Grade::class, Enrollment::class);
+        return $this->hasManyThrough(
+            \App\Models\Rating::class,
+            \App\Models\Registration::class,
+            'estudiante_id',
+            'inscripcion_id',
+            'id',
+            'id'          
+        );
     }
 
-    public function getFullNameAttribute(): string
-    {
-        return "{$this->name} {$this->last_name}";
-    }
 }
-

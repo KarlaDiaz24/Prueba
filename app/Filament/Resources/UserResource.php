@@ -6,19 +6,21 @@ use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
 use Filament\Forms;
+use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Hash;
 
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
+    protected static ?string $navigationLabel = 'Usuarios';
     public static function form(Form $form): Form
     {
         return $form
@@ -38,10 +40,11 @@ class UserResource extends Resource
                     ]),
                 Forms\Components\TextInput::make('password')
                     ->password()
-                    ->required()
-                    ->dehydrated(fn ($state) => filled($state))
+                    ->label('Password')
+                    ->required(fn (string $context) => $context === 'create')
+                    ->dehydrateStateUsing(fn ($state) => filled($state) ? Hash::make($state) : null)
                     ->maxLength(255)
-                    ->confirmed('password_confirmation'),
+                    ->confirmed(),
                 Forms\Components\TextInput::make('password_confirmation')
                     ->password()
                     ->dehydrated(false)
@@ -97,4 +100,10 @@ class UserResource extends Resource
             'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
     }
+        public static function shouldRegisterNavigation(): bool
+        {
+            /** @var User|null $user */
+            $user = Auth::user();
+            return Auth::check() && $user && $user->isAdmin();
+        }
 }

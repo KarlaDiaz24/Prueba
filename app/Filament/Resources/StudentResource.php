@@ -18,31 +18,31 @@ class StudentResource extends Resource
     protected static ?string $model = Student::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
+    protected static ?string $navigationLabel = 'Estudiantes';
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('Nombre')
+                Forms\Components\TextInput::make('nombre')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('Apellido')
+                Forms\Components\TextInput::make('apellido')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('Matricula')
+                Forms\Components\TextInput::make('matricula')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('Grupo')
+                Forms\Components\TextInput::make('grupo')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('Semestre')
+                Forms\Components\TextInput::make('semestre')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('email')
+                Forms\Components\TextInput::make('correo')
                     ->email()
                     ->required()
                     ->maxLength(255),
-                Forms\Components\DatePicker::make('Fecha_nacimiento')
+                Forms\Components\DatePicker::make('fecha_nacimiento')
                     ->required(),
             ]);
     }
@@ -54,25 +54,25 @@ class StudentResource extends Resource
                 Tables\Columns\TextColumn::make('id')
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('Nombre')
+                Tables\Columns\TextColumn::make('nombre')
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('Apellido')
+                Tables\Columns\TextColumn::make('apellido')
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('Matricula')
+                Tables\Columns\TextColumn::make('matricula')
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('Grupo')
+                Tables\Columns\TextColumn::make('grupo')
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('Semestre')
+                Tables\Columns\TextColumn::make('semestre')
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('email')
+                Tables\Columns\TextColumn::make('correo')
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('Fecha_nacimiento')
+                Tables\Columns\TextColumn::make('fecha_nacimiento')
                     ->dateTime()
                     ->sortable()
                     ->searchable(),
@@ -93,7 +93,7 @@ class StudentResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            \App\Filament\Resources\StudentResource\RelationManagers\RatingsRelationManager::class,
         ];
     }
 

@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\GradeResource\Pages;
+namespace App\Filament\Resources\RatingResource\Pages;
 
-use App\Filament\Resources\GradeResource;
+use App\Filament\Resources\RatingResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
-class EditGrade extends EditRecord
+class EditRating extends EditRecord
 {
-    protected static string $resource = GradeResource::class;
+    protected static string $resource = RatingResource::class;
 
     protected function getHeaderActions(): array
     {

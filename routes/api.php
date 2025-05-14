@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\RatingController;
+use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\UserController;
@@ -11,8 +13,10 @@ Route::middleware('auth:sanctum')->group(function () {
         return $request->user();
     });
 
-    Route::apiResource('/users', UserController::class);
-    Route::apiResource('/students', StudentController::class);
-    Route::apiResource('/subjects', SubjectController::class);
+    Route::apiResource('users', UserController::class);
+    Route::apiResource('students', StudentController::class);
+    Route::apiResource('subjects', SubjectController::class);
+    Route::apiResource('registrations', RegistrationController::class);
+    Route::apiResource('ratings', RatingController::class);
 });
 

@@ -13,27 +13,29 @@ class Subject extends Model
     use HasFactory;
 
     protected $fillable = [
-        'Nombre',
-        'Codigo',
-        'Docente_id'
-    ];
+        'nombre',
+        'codigo',
+        'docente_id'];
 
-    public function students(): BelongsToMany
-    {
-        return $this->belongsToMany(Student::class, 'enrollments')->withTimestamps();
-    }
-
-    public function enrollments(): HasMany
-    {
-        return $this->hasMany(Enrollment::class);
-    }
-
-    public function grades(): HasManyThrough
-    {
-        return $this->hasManyThrough(Grade::class, Enrollment::class);
-    }
     public function docente()
     {
-        return $this->belongsTo(User::class, 'Docente_id');
+        return $this->belongsTo(User::class, 'docente_id');
+    }
+
+    public function registrations()
+    {
+        return $this->hasMany(Registration::class, 'materia_id');
+    }
+
+    public function estudiantes()
+    {
+        return $this->belongsToMany(Student::class, 'registrations')
+            ->withTimestamps();
+    }
+
+    public function calificaciones()
+    {
+        return $this->hasManyThrough(Rating::class, Registration::class);
     }
 }
+

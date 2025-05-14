@@ -22,9 +22,9 @@ class SubjectRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'Nombre' => 'required|string|max:255',
-            'Codigo' => 'required|string|max:255',
-            'Docente_id' => 'required|exists:users,id',
+            'nombre' => 'required|string|max:255',
+            'codigo' => 'required|string|max:50|unique:subjects,codigo',
+            'docente_id' => 'required|exists:users,id',
         ];
     }
 }
